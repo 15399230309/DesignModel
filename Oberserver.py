@@ -80,32 +80,32 @@ class BinaryFormatter:
 def main():
     # 实例化一个具备有名字，有驱动的发布者 df
     df = DefaultFormatter('test1')
-    print(df)
+    print(df) # DefaultFormatter: 'test1' has data = 0
     print()
     # 实例化一个 订阅者hf
     hf = HexFormatter()
     # 将订阅者hf添加到df的影响范围列表中，从此时起， 如果df的data属性改变，那么hf对象就会调用notify方法
     df.add(hf)
     df.data = 3
-    print(df)
+    print(df) # HexFormatter: 'test1' has now hex data = 0x3 ，DefaultFormatter: 'test1' has data = 3
     print()
     # # 实例化一个 订阅者bf
     bf = BinaryFormatter()
     df.add(bf)
     # # 此时df已经有两个订阅者了
-    df.data = 21
-    print(df)
+    df.data = 21 # HexFormatter: 'test1' has now hex data = 0x15 ，BinaryFormatter: 'test1' has now bin data = 0b10101
+    print(df) #DefaultFormatter: 'test1' has data = 21
     print()
     df.remove(hf)
-    df.data = 40
-    print(df)
+    df.data = 40 #BinaryFormatter: 'test1' has now bin data = 0b101000
+    print(df)# DefaultFormatter: 'test1' has data = 40
     print()
-    df.remove(hf)
-    df.add(bf)
-    df.data = 'hello'
-    print(df)
+    df.remove(hf) #Failed to remove: <__main__.HexFormatter object at 0x00000000027C79B0>
+    df.add(bf) #Failed to add: <__main__.BinaryFormatter object at 0x00000000027C79E8>
+    df.data = 'hello'  #Error: invalid literal for int() with base 10: 'hello'
+    print(df) #DefaultFormatter: 'test1' has data = 40
     print()
-    df.data = 15.8
-    print(df)
+    df.data = 15.8 #BinaryFormatter: 'test1' has now bin data = 0b1111
+    print(df) #DefaultFormatter: 'test1' has data = 15
 if __name__ == '__main__':
     main()
